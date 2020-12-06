@@ -1,0 +1,2 @@
+# BundleToolDeviceSpecJsonGenerator
+BundleTool DeviceSpecJson Generator
