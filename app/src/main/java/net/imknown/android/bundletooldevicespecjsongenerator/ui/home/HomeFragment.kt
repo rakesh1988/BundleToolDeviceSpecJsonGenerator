@@ -1,30 +1,50 @@
 package net.imknown.android.bundletooldevicespecjsongenerator.ui.home
 
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import net.imknown.android.bundletooldevicespecjsongenerator.EventObserver
 import net.imknown.android.bundletooldevicespecjsongenerator.R
 
 class HomeFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel by activityViewModels<HomeViewModel>()
+
+    private lateinit var textView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(viewLifecycleOwner) {
+        textView = root.findViewById(R.id.text_home)
+        textView.movementMethod = ScrollingMovementMethod()
+
+        return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        homeViewModel.addGlSurfaceViewEvent.observe(viewLifecycleOwner, EventObserver {
+            (view as ViewGroup).addView(it)
+        })
+
+        homeViewModel.removeGlSurfaceViewEvent.observe(viewLifecycleOwner, EventObserver {
+            (view as ViewGroup).removeView(it)
+            it.holder.surface.release()
+        })
+
+        homeViewModel.result.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        return root
+
+        homeViewModel.fetch()
     }
 }
