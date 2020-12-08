@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         })
 
         homeViewModel.removeGlSurfaceViewEvent.observe(viewLifecycleOwner, EventObserver {
-            (view as ViewGroup).removeView(it)
+            it.visibility = View.GONE
             it.holder.surface.release()
         })
 
