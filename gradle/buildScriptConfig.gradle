@@ -102,8 +102,6 @@ ext {
             firebaseCrashlyticsGradlePlugin: '2.4.1',
             // https://firebase.google.com/docs/crashlytics/get-started?platform=android#add-dependencies
             // firebaseCrashlytics            : '17.3.0',
-            // https://firebase.google.com/docs/crashlytics/ndk-reports
-            // firebaseCrashlyticsNdk         : '17.3.0'
     ]
     // endregion [Firebase]
 }
